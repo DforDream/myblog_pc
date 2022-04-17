@@ -39,7 +39,6 @@ class Request {
     // 全局请求拦截器
     this.instance.interceptors.request.use(
       (req: RequestConfig) => {
-        console.log('全局请求拦截器');
         this.hasLoading && this.showLoading()
         return req;
       },
@@ -53,7 +52,6 @@ class Request {
     // 全局响应拦截器
     this.instance.interceptors.response.use(
       (res: AxiosResponse) => {
-        console.log('全局响应拦截器');
         return res;
       },
       (err: any) => err

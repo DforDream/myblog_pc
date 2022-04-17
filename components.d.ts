@@ -4,9 +4,23 @@
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AboutMeLeft: typeof import('./src/components/aboutme/AboutMeLeft.vue')['default']
     AButton: typeof import('ant-design-vue/es')['Button']
+    AImage: typeof import('ant-design-vue/es')['Image']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
+    ASpace: typeof import('ant-design-vue/es')['Space']
     ASpin: typeof import('ant-design-vue/es')['Spin']
+    Footer: typeof import('./src/components/Footer.vue')['default']
+    Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Layout: typeof import('./src/components/Layout.vue')['default']
+    Loaading: typeof import('./src/components/Loaading.vue')['default']
+    Loading: typeof import('./src/components/Loading.vue')['default']
+    Main: typeof import('./src/components/Main.vue')['default']
+    Main_left: typeof import('./src/components/Main_left.vue')['default']
+    Main_right: typeof import('./src/components/Main_right.vue')['default']
+    Nav: typeof import('./src/components/Nav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

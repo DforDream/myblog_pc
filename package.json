@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "dev:test":"vite --mode test",
+    "dev:test": "vite --mode test",
     "test": "vite --mode test",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.1.1",
     "axios": "^0.26.1",
     "pinia": "^2.0.13",
