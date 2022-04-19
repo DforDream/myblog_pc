@@ -13,7 +13,6 @@
   width: 100%;
   height: 100%;
   position: relative;
-  background: #f2f3f5;
   .center {
     position: absolute;
     top: 50%;

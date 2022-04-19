@@ -27,7 +27,7 @@ import Home from "@/pages/Home.vue";
     flex-wrap: wrap;
     background: #fff;
     position: sticky;
-    top: 0;
+    top: -1px;
     margin-bottom: 15px;
     span {
       cursor: pointer;

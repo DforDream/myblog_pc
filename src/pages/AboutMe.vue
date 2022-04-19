@@ -9,7 +9,9 @@
       </div>
     </div>
     <div class="main">
-      <component :is="showComponent"></component>
+      <transition name="main_move">
+        <component :is="showComponent"></component>
+      </transition>
     </div>
     <div class="backhome" @click="toHome">
       <backward-filled />
@@ -122,6 +124,10 @@ window.addEventListener("mousewheel", mousewheel);
   }
   .main {
     flex: 1;
+    background: #f2f3f5;
+    .main_move {
+      transition: all 10s ease-in-out;
+    }
   }
   .backhome {
     width: 50px;
@@ -161,6 +167,23 @@ window.addEventListener("mousewheel", mousewheel);
     background: #383334;
     color: #eeecea;
   }
+/*   .main_move-enter-from {
+
+  }
+  .main_move-enter-to {
+
+  } */
+  .main_move-leave-from,.main_move-enter-to {
+    transition: all .5s ease-in-out;
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  .main_move-leave-to, .main_move-enter-from {
+    transition: all .5s ease-in-out;
+    transform: scale(0.5) translateY(-100vh);
+    opacity: 0;
+  }
+
   @keyframes back {
     0% {
       transform: translateX(-5px);
