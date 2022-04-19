@@ -5,7 +5,7 @@
         v-for="item in _static.nav"
         :key="item.url"
         :class="item.url === active ? 'active' : ''"
-        @click="gotoPage(item.url)"
+        @click="gotoPage(item)"
       >
         {{ item.title }}
       </li>
@@ -16,16 +16,28 @@
   </div>
 </template>
 <script setup lang="ts">
+interface Item {
+  url: string,
+  title: string,
+  show?: string
+}
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import navImg from "@/assets/nav.webp";
 import useStatic from "@/store/static";
+import useLayout from "@/store/layout";
 const _static = useStatic();
-const active = ref("/");
+const layout = useLayout();
+const active = ref("");
 const router = useRouter();
-const gotoPage = (url: string) => {
-  active.value = url;
-  router.push(url);
+active.value = router.currentRoute.value.fullPath;
+const gotoPage = (item:Item) => {
+  if(item.show && item.show === "showAboutMe"){
+    layout.showAboutMe = true;
+  }else{
+    active.value = item.url;
+    router.push(item.url)
+  }
 };
 </script>
 

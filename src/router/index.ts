@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import Home from "@/pages/Home.vue";
 import Layout from "@/components/Layout.vue";
+import AboutMe from "@/pages/AboutMe.vue"
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,38 +21,6 @@ const routes: RouteRecordRaw[] = [
       {
         path: "blog",
         component: () => import("@/pages/Blog.vue"),
-      },
-    ],
-  },
-  {
-    path: "/aboutme",
-    component: () => import("@/pages/AboutMe.vue"),
-    redirect: "/aboutme/home",
-    children: [
-      {
-        name: "home",
-        path: "home",
-        component: () => import("@/pages/aboutme/Home.vue"),
-      },
-      {
-        path: "me",
-        component: () => import("@/pages/aboutme/Me.vue"),
-      },
-      {
-        path: "work",
-        component: () => import("@/pages/aboutme/Work.vue"),
-      },
-      {
-        path: "project",
-        component: () => import("@/pages/aboutme/Project.vue"),
-      },
-      {
-        path: "web",
-        component: () => import("@/pages/aboutme/Web.vue"),
-      },
-      {
-        path: "contact",
-        component: () => import("@/pages/aboutme/Contact.vue"),
       },
     ],
   },

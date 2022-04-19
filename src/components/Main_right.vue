@@ -17,7 +17,7 @@
         <li
           v-for="item in _static.nav"
           :key="item.url"
-          v-show="item.url !== '/'"
+          v-show="item.url !== '/home'"
         >
           {{ item.title }}
         </li>

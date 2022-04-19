@@ -4,7 +4,7 @@ const useStatic = defineStore("static", {
   state: () => ({
     nav: [
       {
-        url: "/",
+        url: "/home",
         title: "首页",
       },
       {
@@ -14,10 +14,12 @@ const useStatic = defineStore("static", {
       {
         url: "/aboutme",
         title: "关于我",
+        show: 'showAboutMe'
       },
       {
         url: "/contact",
         title: "联系我",
+        show: 'showContact'
       },
       {
         url: "/msgboard",

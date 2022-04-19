@@ -1,9 +1,7 @@
 <template>
   <div class="home">
-    <div class="center">
-      <h1>一只小白u</h1>
-      <p>I AM A <span>Web Developer</span></p>
-    </div>
+    <h1>一只小白u</h1>
+    <p>I AM A <span>Web Developer</span></p>
   </div>
 </template>
 <script setup lang="ts"></script>
@@ -14,6 +12,7 @@
   position: relative;
   background: #f2f3f5;
   text-align: center;
+  overflow-y: scroll;
   .center {
     position: absolute;
     top: 50%;
