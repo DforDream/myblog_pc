@@ -28,6 +28,7 @@ const useStatic = defineStore("static", {
       {
         url: "/admin",
         title: "写博客",
+        show: 'showAdmin'
       },
     ],
   }),

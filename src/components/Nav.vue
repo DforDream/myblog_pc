@@ -34,6 +34,8 @@ active.value = router.currentRoute.value.fullPath;
 const gotoPage = (item:Item) => {
   if(item.show && item.show === "showAboutMe"){
     layout.showAboutMe = true;
+  }else if(item.show && item.show === "showAdmin"){
+    layout.showAdmin = true;
   }else{
     active.value = item.url;
     router.push(item.url)

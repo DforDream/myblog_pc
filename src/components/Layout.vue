@@ -1,29 +1,35 @@
 <template>
   <Loading />
   <div class="container">
-    <div class="container_center" :class="layout.showAboutMe ? 'hide' : '' ">
+    <div class="container_center" :class="layout.showAboutMe || layout.showAdmin ? 'hide' : ''">
       <Header />
       <Nav />
       <Main />
       <Footer />
     </div>
-    <transition name="move">
+    <transition name="from_left">
       <div class="aboutme" v-if="layout.showAboutMe">
-      <AboutMe />
-    </div>
+        <AboutMe />
+      </div>
+    </transition>
+    <transition name="from_right">
+      <div class="aboutme" v-if="layout.showAdmin">
+        <Login />
+      </div>
     </transition>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
-import  useLayout from '@/store/layout';
+import { ref } from "vue";
+import useLayout from "@/store/layout";
 import Loading from "./Loading.vue";
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 import Nav from "./Nav.vue";
 import Main from "./Main.vue";
-import AboutMe from '@/pages/AboutMe.vue'
-const layout = useLayout()
+import AboutMe from "@/pages/AboutMe.vue";
+import Login from "@/pages/Login.vue";
+const layout = useLayout();
 </script>
 
 <style scoped lang="less">
@@ -50,11 +56,20 @@ const layout = useLayout()
 .hide {
   overflow: hidden;
 }
-.move-enter-from, .move-leave-to {
+.from_left-enter-from,
+.from_left-leave-to {
   transform: translateX(-100vw);
 }
-.move-enter-to, .move-leave-from {
+.from_left-enter-to,
+.from_left-leave-from {
   transform: translateX(0);
 }
- 
+.from_right-enter-from,
+.from_right-leave-to {
+  transform: translateX(100vw);
+}
+.from_right-enter-to,
+.from_right-leave-from {
+  transform: translateX(0);
+}
 </style>

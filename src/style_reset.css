@@ -213,3 +213,10 @@ a {
     color: #25a4bb;
     text-decoration: none;
 }
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

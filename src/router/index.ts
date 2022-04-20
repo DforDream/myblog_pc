@@ -22,6 +22,10 @@ const routes: RouteRecordRaw[] = [
         path: "blog",
         component: () => import("@/pages/Blog.vue"),
       },
+      {
+        path: "msgboard",
+        component: () => import("@/pages/Msgboard.vue"),
+      }
     ],
   },
 ];

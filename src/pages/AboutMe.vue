@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="main">
-      <transition name="main_move">
+      <transition name="main_move" mode="out-in">
         <component :is="showComponent"></component>
       </transition>
     </div>
@@ -104,7 +104,7 @@ const mousewheel = (e: WheelEventInit) => {
     }
     setTimeout(() => {
       flag.value = false;
-    }, 100);
+    }, 500);
   }
 };
 window.addEventListener("mousewheel", mousewheel);
@@ -125,6 +125,7 @@ window.addEventListener("mousewheel", mousewheel);
   .main {
     flex: 1;
     background: #f2f3f5;
+    overflow: hidden;
     .main_move {
       transition: all 10s ease-in-out;
     }
@@ -162,6 +163,9 @@ window.addEventListener("mousewheel", mousewheel);
     cursor: pointer;
     margin-bottom: 15px;
     font-size: 20px;
+    svg {
+      margin-top: 15px;
+    }
   }
   .active {
     background: #383334;
