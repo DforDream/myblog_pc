@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router";
 import Home from "@/pages/Home.vue";
 import Layout from "@/components/Layout.vue";
 import AboutMe from "@/pages/AboutMe.vue"
+import request from '@/http'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -28,6 +29,21 @@ const routes: RouteRecordRaw[] = [
       }
     ],
   },
+  {
+    path: '/admin',
+    component: () => import('@/pages/Admin.vue'),
+    redirect: '/admin/writeblog',
+    children: [
+      {
+        path: 'writeblog',
+        component: () => import('@/pages/admin/WriteBlog.vue')
+      }
+    ]
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: '/home'
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),
@@ -37,7 +53,20 @@ const router = createRouter({
 // 全局路由守卫 设置title
 router.beforeEach((to, from, next) => {
   document.title = (to.meta.title as string) || "Vite App";
-  next();
+  if(to.fullPath.includes('/admin')){
+    request.get({
+      url: "/user/isadmin"
+    })
+    .then((res:any) => {
+      if(sessionStorage.getItem('adminToken') === res.data.token && to.path !== '/home'){
+        next()
+      }else{
+        next('/home')
+      }
+    })
+  }else{ 
+    next()
+  }
 });
 
 export default router;

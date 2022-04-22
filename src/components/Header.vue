@@ -12,7 +12,6 @@
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
-import { Image } from "ant-design-vue";
 import logo from "@/assets/logo.webp";
 const wellKnown =
   "人生，就像一盒巧克力，你永远不知道下一块会是什么味道！---《阿甘正传》";

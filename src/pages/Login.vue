@@ -1,13 +1,34 @@
 <template>
   <div class="login">
     <div class="main">
-      <div>
-        用户名：<a-input v-model:value="username" placeholder="请输入用户名" />
-      </div>
-      <div>
-        密码：
-        <a-input-password v-model:value="password" placeholder="请输入密码" />
-      </div>
+      <a-form
+        :model="user"
+        name="basic"
+        :label-col="{ span: 8 }"
+        :wrapper-col="{ span: 10 }"
+        autocomplete="off"
+      >
+        <a-form-item
+          label="用户名"
+          name="username"
+          :rules="[{ required: true, message: '请输入用户名' }]"
+        >
+          <a-input v-model:value="user.username" />
+        </a-form-item>
+
+        <a-form-item
+          label="密码"
+          name="password"
+          :rules="[{ required: true, message: '请输入密码' }]"
+        >
+          <a-input-password v-model:value="user.password" />
+        </a-form-item>
+        <a-form-item :wrapper-col="{ offset: 6, span: 12 }">
+          <a-button type="primary" :loading="isLoading" @click="login"
+            >登录</a-button
+          >
+        </a-form-item>
+      </a-form>
     </div>
     <div class="backhome" @click="toHome">
       <forward-outlined />
@@ -15,11 +36,53 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
 import { ForwardOutlined } from "@ant-design/icons-vue";
 import useLayout from "@/store/layout";
+import request from "@/http";
+import { message } from "ant-design-vue";
 const layout = useLayout();
+const router = useRouter();
+const user = reactive({
+  username: "",
+  password: "",
+});
+request
+  .get({
+    url: "/user/isadmin",
+  })
+  .then((res: any) => {
+    if (res.data && res.data.token === sessionStorage.getItem("adminToken")) {
+      user.username = "admin";
+      user.password = "123456";
+    }
+  });
+const isLoading = ref(false);
 const toHome = () => {
   layout.showAdmin = false;
+};
+const login = () => {
+  if (user.username && user.password) {
+    isLoading.value = true;
+    request
+      .post({
+        url: "/user/login",
+        data: user,
+      })
+      .then((res: any) => {
+        isLoading.value = false;
+        if (res.data.code && res.data.code === 200) {
+          message.success(res.data.message);
+          user.username = "";
+          user.password = "";
+          sessionStorage.setItem("adminToken", res.data.token);
+          router.push("/admin");
+        } else {
+          message.warning(res.data.message);
+        }
+      });
+  }
 };
 </script>
 
@@ -28,19 +91,32 @@ const toHome = () => {
   width: 100vw;
   height: 100vh;
   position: relative;
+  background: url("@/assets/login_bg.gif") no-repeat;
+  background-size: cover;
   .main {
     position: absolute;
     width: 600px;
     height: 300px;
-    background: red;
     bottom: 30%;
     right: 10%;
+    background: #fff;
+    padding-top: 50px;
+    :deep(.ant-input-group-wrapper) {
+      width: 60%;
+      margin-left: 20%;
+      margin-top: 20px;
+    }
+    :deep(.ant-btn) {
+      width: 60%;
+      margin-left: 20%;
+      margin-top: 20px;
+    }
   }
   .backhome {
+    position: absolute;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
@@ -52,8 +128,7 @@ const toHome = () => {
       margin: 0 auto;
       line-height: 50px;
       font-size: 26px;
-      background: transparent;
-      color: #333;
+      color: #fff;
     }
   }
 }

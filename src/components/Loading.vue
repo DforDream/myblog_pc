@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { Spin } from "ant-design-vue";
 import useHttp from "@/store/http";
 const http = useHttp();
 </script>

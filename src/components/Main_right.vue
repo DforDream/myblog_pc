@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import useStatic from "@/store/static";
-import { InputSearch } from "ant-design-vue";
 const _static = useStatic();
 const search = ref("");
 const onSearch = () => {};

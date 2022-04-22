@@ -39,7 +39,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Timeline, TimelineItem } from "ant-design-vue";
 </script>
 
 <style scoped lang="less">
