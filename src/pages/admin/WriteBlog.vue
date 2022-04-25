@@ -1,27 +1,57 @@
 <template>
   <div class="write_blog">
-    <div class="blog">
-      <a-input
-        class="title"
-        v-model:value="blog.title"
-        :bordered="false"
-        placeholder="请输入博客标题..."
-        size="large"
-        :maxlength="20"
-        showCount
-      />
-      <a-button class="add" type="primary" @click="add">发布</a-button>
-      <div class="image">
-        <a-upload v-model:file-list="blog.image" list-type="picture" :maxCount="1" action="http://localhost:3300">
+    <a-form
+      :model="blogState"
+      @finish="addBlog"
+      :rules="formRules"
+      class="blog"
+    >
+      <a-form-item name="title">
+        <a-input
+          class="title"
+          v-model:value="blogState.title"
+          :bordered="false"
+          placeholder="请输入博客标题..."
+          size="large"
+          :maxlength="20"
+          showCount
+          style="width: 600px"
+        />
+        <a-button class="add" type="primary" html-type="submit">发布</a-button>
+      </a-form-item>
+
+      <a-form-item name="classify">
+        <a-select
+          v-model:value="blogState.classify"
+          placeholder="请选择博客分类..."
+          style="width: 300px"
+        >
+          <a-select-option value="jack">Jack</a-select-option>
+          <a-select-option value="lucy">Lucy</a-select-option>
+          <a-select-option value="disabled">Disabled</a-select-option>
+          <a-select-option value="Yiminghe">yiminghe</a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item name="image">
+        <a-upload
+          v-model:file-list="blogState.image"
+          list-type="picture"
+          :maxCount="1"
+          action="http://localhost:3300/blog/addimg"
+          name="image"
+          @change="changeImg"
+          @remove="removeImg"
+        >
           <a-button>
             <upload-outlined></upload-outlined>
             选择封面
           </a-button>
         </a-upload>
-      </div>
-    </div>
+      </a-form-item>
+    </a-form>
     <div class="content">
-      <MdEditor v-model="blogContent" />
+      <MdEditor v-model="blogState.content" />
     </div>
   </div>
 </template>
@@ -29,25 +59,83 @@
 // vue3 makedown 插件
 import MdEditor from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
-import type { UploadProps } from "ant-design-vue";
+import { message, UploadChangeParam } from "ant-design-vue";
 import { UploadOutlined } from "@ant-design/icons-vue";
 import { ref, reactive } from "vue";
-import request from '@/http'
-const blog = reactive({
-  title: "",
-  image: [],
-});
-const blogContent = ref("");
-const add = () => {
-  request.post({
-    url: '/blog/add',
-    data: {
-      title: blog.title,
-      image: blog.image,
-      content: blogContent.value
-    }
-  })
+import request from "@/http";
+interface BlogState {
+  title: string;
+  classify: string | null;
+  image: any[];
+  content: string;
 }
+const formRules = {
+  title: [{ required: true, message: "博客标题不能为空" }],
+  classify: [{ required: true, message: "博客分类不能为空" }],
+  image: [{ required: true, message: "博客封面图不能为空", type: "array" }],
+  content: [{ required: true, message: "博客内容不能为空" }],
+};
+const blogState: BlogState = reactive({
+  title: "",
+  classify: null,
+  image: [],
+  content: "",
+});
+const imgPath = ref("");
+const addBlog = () => {
+  request
+    .post({
+      url: "/blog/add",
+      data: {
+        title: blogState.title,
+        classify: blogState.classify,
+        content: blogState.content,
+        imgpath: imgPath.value,
+      },
+    })
+    .then((res: any) => {
+      if (res.data.code === 200) {
+        message.success(res.data.message);
+        blogState.title = "";
+        blogState.classify = null;
+        blogState.content = "";
+        imgPath.value = "";
+      } else {
+        message.error(res.data.message);
+      }
+    });
+};
+const changeImg = (info: UploadChangeParam) => {
+  if (imgPath.value) {
+    request.post({
+      url: "/blog/delimg",
+      data: {
+        path: imgPath.value,
+      },
+    });
+    imgPath.value = "";
+  }
+  if (info.file.status === "done") {
+    imgPath.value = info.file.response.path;
+  }
+};
+const removeImg = () => {
+  request
+    .post({
+      url: "/blog/delimg",
+      data: {
+        path: imgPath.value,
+      },
+    })
+    .then((res: any) => {
+      if (res.data.code === 200) {
+        message.success(res.data.message);
+      } else {
+        message.success("删除失败");
+      }
+    });
+  imgPath.value = "";
+};
 </script>
 
 <style scoped lang="less">
@@ -57,24 +145,23 @@ const add = () => {
   flex-direction: column;
   .blog {
     .title {
-      :deep(.ant-input ){
-        font-size: 26px;
+      :deep(.ant-input) {
         color: #333;
+        font-size: 26px;
         font-weight: 700;
       }
-      width: 60%;
     }
     .add {
       float: right;
-    }
-    .image {
-      margin: 5px 0;
-      width: 150px;
+      margin-right: 20px;
+      width: 120px;
+      height: 50px;
+      font-size: 16px;
     }
   }
   .content {
     flex: 1;
-    :deep(.md){
+    :deep(.md) {
       height: 100%;
     }
   }

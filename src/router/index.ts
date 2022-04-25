@@ -32,11 +32,15 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('@/pages/Admin.vue'),
-    redirect: '/admin/writeblog',
+    redirect: '/admin/classify',
     children: [
       {
         path: 'writeblog',
         component: () => import('@/pages/admin/WriteBlog.vue')
+      },
+      {
+        path: 'classify',
+        component: () => import('@/pages/admin/Classify.vue')
       }
     ]
   },

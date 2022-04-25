@@ -26,6 +26,11 @@ const nav = [
     path: '/admin/writeblog',
     title: '写博客'
   },
+  {
+    id: 1,
+    path: '/admin/classify',
+    title: '分类管理'
+  }
 ]
 const active = ref(0)
 const goHome = () => {
@@ -54,7 +59,6 @@ const toPage = (path:string,id:number) => {
       cursor: pointer;
       width: 230px;
       margin: 15px 10px 25px;
-      background: rgba(255,255,255,.3);
       text-align: center;
       font-size: 26px;
       line-height: 50px;

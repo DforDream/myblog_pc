@@ -55,7 +55,7 @@ request
   .then((res: any) => {
     if (res.data && res.data.token === sessionStorage.getItem("adminToken")) {
       user.username = "admin";
-      user.password = "123456";
+      user.password = "dxp19961104";
     }
   });
 const isLoading = ref(false);
