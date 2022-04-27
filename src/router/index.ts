@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('@/pages/Admin.vue'),
-    redirect: '/admin/classify',
+    redirect: '/admin/writeblog',
     children: [
       {
         path: 'writeblog',
@@ -41,7 +41,11 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'classify',
         component: () => import('@/pages/admin/Classify.vue')
-      }
+      },
+      {
+        path: 'adminblog',
+        component: () => import('@/pages/admin/AdminBlog.vue')
+      },
     ]
   },
   {

@@ -1,9 +1,9 @@
 <template>
 <div class="admin">
   <div class="sider">
-    <div class="logo" @click="goHome">一只小白u<span>の</span>微博</div>
+    <div class="logo" @click="goHome">一只小白u<span>の</span>博客</div>
     <ul>
-      <li v-for="item in nav" :key="item.id" @click="toPage(item.path,item.id)" :class="{ 'active': item.id === active }">
+      <li v-for="item in nav" :key="item.id" @click="toPage(item.path)" :class="{ 'active': item.path === active }">
         {{ item.title }}
       </li>
     </ul>
@@ -14,7 +14,7 @@
 </div>
 </template>
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import useLayout from '@/store/layout';
 const router = useRouter();
@@ -30,17 +30,26 @@ const nav = [
     id: 1,
     path: '/admin/classify',
     title: '分类管理'
+  },
+  {
+    id: 2,
+    path: '/admin/adminblog',
+    title: '博客管理'
   }
 ]
-const active = ref(0)
+const active = ref('/admin/writeblog')
 const goHome = () => {
   layout.showAdmin = false;
   router.push('/home');
 }
-const toPage = (path:string,id:number) => {
-  active.value = id;
+const toPage = (path:string) => {
+  active.value = path;
   router.push(path);
 }
+watch(router.currentRoute,() => {
+  active.value = router.currentRoute.value.fullPath
+})
+active.value = router.currentRoute.value.fullPath
 </script>
 
 <style scoped lang='less'>

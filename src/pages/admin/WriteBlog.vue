@@ -26,10 +26,9 @@
           placeholder="请选择博客分类..."
           style="width: 300px"
         >
-          <a-select-option value="jack">Jack</a-select-option>
-          <a-select-option value="lucy">Lucy</a-select-option>
-          <a-select-option value="disabled">Disabled</a-select-option>
-          <a-select-option value="Yiminghe">yiminghe</a-select-option>
+        <a-select-option v-for="item in classify.allClassify" :key="item.id" :value="item.classify">
+          {{ item.classify }}
+        </a-select-option>
         </a-select>
       </a-form-item>
 
@@ -42,6 +41,7 @@
           name="image"
           @change="changeImg"
           @remove="removeImg"
+          :disabled="isDisable"
         >
           <a-button>
             <upload-outlined></upload-outlined>
@@ -60,9 +60,12 @@
 import MdEditor from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import { message, UploadChangeParam } from "ant-design-vue";
+import type { SelectProps } from "ant-design-vue";
 import { UploadOutlined } from "@ant-design/icons-vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import request from "@/http";
+import useClassify from "@/store/classify";
+import { ADD_BLOG, DEL_IMAGE } from "@/http/api";
 interface BlogState {
   title: string;
   classify: string | null;
@@ -82,10 +85,12 @@ const blogState: BlogState = reactive({
   content: "",
 });
 const imgPath = ref("");
+const classifyOptions = ref<SelectProps['options']>([])
+const classify = useClassify();
 const addBlog = () => {
   request
     .post({
-      url: "/blog/add",
+      url: ADD_BLOG,
       data: {
         title: blogState.title,
         classify: blogState.classify,
@@ -99,6 +104,7 @@ const addBlog = () => {
         blogState.title = "";
         blogState.classify = null;
         blogState.content = "";
+        blogState.image = []
         imgPath.value = "";
       } else {
         message.error(res.data.message);
@@ -108,7 +114,7 @@ const addBlog = () => {
 const changeImg = (info: UploadChangeParam) => {
   if (imgPath.value) {
     request.post({
-      url: "/blog/delimg",
+      url: DEL_IMAGE,
       data: {
         path: imgPath.value,
       },
@@ -122,7 +128,7 @@ const changeImg = (info: UploadChangeParam) => {
 const removeImg = () => {
   request
     .post({
-      url: "/blog/delimg",
+      url: DEL_IMAGE,
       data: {
         path: imgPath.value,
       },
@@ -136,6 +142,10 @@ const removeImg = () => {
     });
   imgPath.value = "";
 };
+classify.getAllClassify();
+const isDisable = computed(() => {
+  return (blogState.title === '' || blogState.classify === null || blogState.content === '') ? true : false
+})
 </script>
 
 <style scoped lang="less">
