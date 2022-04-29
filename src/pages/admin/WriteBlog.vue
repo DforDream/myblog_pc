@@ -84,6 +84,13 @@ const blogState: BlogState = reactive({
   image: [],
   content: "",
 });
+// request.get({
+//   url: `${import.meta.env.VITE_BASE_URL}/public/blog/2022-4-28-1651111109987-测试数据库.md`
+// }).then((res:any) => {
+//   console.log(res)
+//   // blogState.content = res.data
+// })
+// blogState.content = require(`${import.meta.env.VITE_BASE_URL}/public/blog/2022-4-28-1651111109987-测试数据库.md`)
 const imgPath = ref("");
 const classifyOptions = ref<SelectProps['options']>([])
 const classify = useClassify();
