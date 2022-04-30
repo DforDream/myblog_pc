@@ -60,7 +60,7 @@ const router = createRouter({
 
 // 全局路由守卫 设置title
 router.beforeEach((to, from, next) => {
-  document.title = (to.meta.title as string) || "Vite App";
+  document.title = (to.meta.title as string) || "一只小白u";
   if(to.fullPath.includes('/admin')){
     request.get({
       url: "/user/isadmin"

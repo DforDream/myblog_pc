@@ -1,22 +1,35 @@
 <template>
   <div class="blog">
     <div class="sort">
-      <span class="active">全部</span>
-      <span>html</span>
-      <span>js</span>
-      <span>css</span>
-      <span>vue</span>
-      <span>react</span>
-      <span>node</span>
-      <span>git</span>
-      <span>mysql</span>
-      <span>其他</span>
+      <span :class="{ 'active': blog.classify === ''}" @click="selectClassify('')">全部</span>
+      <span :class="{'active': blog.classify === item.classify }" v-for="item in classifyList" :key="item.id" @click="selectClassify(item.classify)">{{ item.classify }}</span>
     </div>
-    <Home />
+    <BlogList :data="blog.allBlog" />
+    <a-pagination class="pagination" v-model:current="blog.current" :total="blog.total" hideOnSinglePage />
   </div>
 </template>
 <script setup lang="ts">
-import Home from "@/pages/Home.vue";
+import { ref } from 'vue';
+import request from "@/http";
+import { GET_ALL_CLASSIFY } from '@/http/api';
+import useBlog from '@/store/blog';
+import BlogList from '@/components/BlogList.vue';
+
+const blog = useBlog();
+const classifyList = ref([])
+
+request.get({
+  url: GET_ALL_CLASSIFY
+}).then((res:any) => {
+  if(res.data.code === 200){
+    classifyList.value = res.data.data;
+  }
+})
+const selectClassify = (classify:string = '') => {
+  blog.classify = classify;
+  blog.findBlog(blog.title,1,blog.classify)
+}
+blog.findBlog(blog.title,1,blog.classify)
 </script>
 
 <style scoped lang="less">
@@ -51,6 +64,9 @@ import Home from "@/pages/Home.vue";
       background: #e5615a;
       color: #fdf3f2;
     }
+  }
+  .pagination {
+    margin-bottom: 20px;
   }
 }
 </style>

@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     ATimeline: typeof import('ant-design-vue/es')['Timeline']
     ATimelineItem: typeof import('ant-design-vue/es')['TimelineItem']
     AUpload: typeof import('ant-design-vue/es')['Upload']
+    BlogList: typeof import('./src/components/BlogList.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']

@@ -21,7 +21,7 @@ interface Item {
   title: string,
   show?: string
 }
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import navImg from "@/assets/nav.webp";
 import useStatic from "@/store/static";
@@ -30,7 +30,6 @@ const _static = useStatic();
 const layout = useLayout();
 const active = ref("");
 const router = useRouter();
-active.value = router.currentRoute.value.fullPath;
 const gotoPage = (item:Item) => {
   if(item.show && item.show === "showAboutMe"){
     layout.showAboutMe = true;
@@ -41,6 +40,10 @@ const gotoPage = (item:Item) => {
     router.push(item.url)
   }
 };
+watch(router.currentRoute,() => {
+  active.value = router.currentRoute.value.fullPath
+})
+active.value = router.currentRoute.value.fullPath
 </script>
 
 <style scoped lang="less">

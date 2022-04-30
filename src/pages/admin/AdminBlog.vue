@@ -23,22 +23,9 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'operation'">
             <a @click="showDrawer(record)">编辑</a>
-            <a-drawer
-              v-model:visible="visible"
-              class="custom-class"
-              width="100%"
-              title="编辑博客"
-              placement="right"
-              :mask="false"
-            >
-              <WriteBlog />
-            </a-drawer>
           </template>
           <template v-else-if="column.dataIndex === 'imgpath'">
-            <a-image
-              :width="200"
-              :src="base + record.imgpath" 
-            />
+            <a-image :width="100" :src="base + record.imgpath" />
           </template>
         </template>
       </a-table>
@@ -50,6 +37,17 @@
         hideOnSinglePage
       />
     </div>
+    <a-drawer
+      v-model:visible="visible"
+      class="custom-class"
+      width="100%"
+      title="编辑博客"
+      placement="right"
+      :mask="false"
+      destroyOnClose
+    >
+      <WriteBlog :data="data" :toClose="close" />
+    </a-drawer>
   </div>
 </template>
 <script setup lang="ts">
@@ -62,7 +60,7 @@ import type { Blog } from "@/store/blog";
 
 const blog = useBlog();
 const router = useRouter();
-const base = import.meta.env.VITE_BASE_URL
+const base = import.meta.env.VITE_BASE_URL;
 const columns = [
   {
     title: "博客标题",
@@ -82,7 +80,7 @@ const columns = [
   },
 ];
 const visible = ref(false);
-
+const data = ref({});
 const onSearch = () => {
   blog.findBlog(blog.title);
 };
@@ -92,10 +90,15 @@ const onChange = () => {
 const gotoWriteBlog = () => {
   router.push("/admin/writeblog");
 };
-const showDrawer = (record: Blog) => {
+const showDrawer = (record:Blog) => {
+  data.value = record
   visible.value = true;
 };
 blog.findBlog();
+const close = () => {
+  visible.value = false;
+  blog.findBlog(blog.title, blog.current);
+};
 </script>
 
 <style scoped lang="less">

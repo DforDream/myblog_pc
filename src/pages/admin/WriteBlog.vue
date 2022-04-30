@@ -26,9 +26,13 @@
           placeholder="请选择博客分类..."
           style="width: 300px"
         >
-        <a-select-option v-for="item in classify.allClassify" :key="item.id" :value="item.classify">
-          {{ item.classify }}
-        </a-select-option>
+          <a-select-option
+            v-for="item in classify.allClassify"
+            :key="item.id"
+            :value="item.classify"
+          >
+            {{ item.classify }}
+          </a-select-option>
         </a-select>
       </a-form-item>
 
@@ -65,13 +69,14 @@ import { UploadOutlined } from "@ant-design/icons-vue";
 import { ref, reactive, computed } from "vue";
 import request from "@/http";
 import useClassify from "@/store/classify";
-import { ADD_BLOG, DEL_IMAGE } from "@/http/api";
+import { ADD_BLOG, DEL_IMAGE, EDIT_BLOG } from "@/http/api";
 interface BlogState {
   title: string;
   classify: string | null;
   image: any[];
   content: string;
 }
+const props = defineProps(["data", "toClose"]);
 const formRules = {
   title: [{ required: true, message: "博客标题不能为空" }],
   classify: [{ required: true, message: "博客分类不能为空" }],
@@ -84,18 +89,38 @@ const blogState: BlogState = reactive({
   image: [],
   content: "",
 });
-// request.get({
-//   url: `${import.meta.env.VITE_BASE_URL}/public/blog/2022-4-28-1651111109987-测试数据库.md`
-// }).then((res:any) => {
-//   console.log(res)
-//   // blogState.content = res.data
-// })
-// blogState.content = require(`${import.meta.env.VITE_BASE_URL}/public/blog/2022-4-28-1651111109987-测试数据库.md`)
 const imgPath = ref("");
-const classifyOptions = ref<SelectProps['options']>([])
+const classifyOptions = ref<SelectProps["options"]>([]);
 const classify = useClassify();
 const addBlog = () => {
-  request
+  if(props.data !== "undefined" && props.data){
+    request
+    .post({
+      url: EDIT_BLOG,
+      data: {
+        title: blogState.title,
+        classify: blogState.classify,
+        content: blogState.content,
+        imgpath: imgPath.value,
+        blogpath: props.data.blogpath,
+        id: props.data.id
+      },
+    })
+    .then((res: any) => {
+      if (res.data.code === 200) {
+        message.success(res.data.message);
+        // blogState.title = "";
+        // blogState.classify = null;
+        // blogState.content = "";
+        // blogState.image = [];
+        // imgPath.value = "";
+        props.toClose()
+      } else {
+        message.error(res.data.message);
+      }
+    });
+  }else{
+      request
     .post({
       url: ADD_BLOG,
       data: {
@@ -111,12 +136,13 @@ const addBlog = () => {
         blogState.title = "";
         blogState.classify = null;
         blogState.content = "";
-        blogState.image = []
+        blogState.image = [];
         imgPath.value = "";
       } else {
         message.error(res.data.message);
       }
     });
+  }
 };
 const changeImg = (info: UploadChangeParam) => {
   if (imgPath.value) {
@@ -151,8 +177,34 @@ const removeImg = () => {
 };
 classify.getAllClassify();
 const isDisable = computed(() => {
-  return (blogState.title === '' || blogState.classify === null || blogState.content === '') ? true : false
-})
+  return blogState.title === "" ||
+    blogState.classify === null ||
+    blogState.content === ""
+    ? true
+    : false;
+});
+if (props.data !== "undefined" && props.data) {
+  blogState.title = props.data.title;
+  blogState.classify = props.data.classify;
+  imgPath.value = props.data.imgpath;
+  blogState.image.push({
+    uid: "-1",
+    name: "image.png",
+    status: "done",
+    url: `${import.meta.env.VITE_BASE_URL}${props.data.imgpath}`,
+  });
+
+  request
+    .get({
+      url: "/blog/getblog",
+      data: {
+        blogpath: props.data.blogpath,
+      },
+    })
+    .then((res: any) => {
+      blogState.content = res.data.data;
+    });
+}
 </script>
 
 <style scoped lang="less">
