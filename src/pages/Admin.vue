@@ -35,6 +35,11 @@ const nav = [
     id: 2,
     path: '/admin/adminblog',
     title: '博客管理'
+  },
+  {
+    id: 3,
+    path: '/admin/msgboard',
+    title: '留言板管理'
   }
 ]
 const active = ref('/admin/writeblog')

@@ -46,6 +46,10 @@ const routes: RouteRecordRaw[] = [
         path: 'adminblog',
         component: () => import('@/pages/admin/AdminBlog.vue')
       },
+      {
+        path: 'msgboard',
+        component: () => import('@/pages/admin/AdminMsgboard.vue')
+      },
     ]
   },
   {

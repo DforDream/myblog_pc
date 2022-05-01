@@ -25,7 +25,8 @@
             <a @click="showDrawer(record)">编辑</a>
           </template>
           <template v-else-if="column.dataIndex === 'imgpath'">
-            <a-image :width="100" :src="base + record.imgpath" />
+            <a-image v-if="record.imgpath" :width="100" :src="base + record.imgpath" />
+            <span v-else>该博客没有上传封面图</span>
           </template>
         </template>
       </a-table>

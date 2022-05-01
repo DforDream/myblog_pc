@@ -5,7 +5,7 @@
       <span :class="{'active': blog.classify === item.classify }" v-for="item in classifyList" :key="item.id" @click="selectClassify(item.classify)">{{ item.classify }}</span>
     </div>
     <BlogList :data="blog.allBlog" />
-    <a-pagination class="pagination" v-model:current="blog.current" :total="blog.total" hideOnSinglePage />
+    <a-pagination class="pagination" v-model:current="blog.current" :total="blog.total" hideOnSinglePage @change="change" />
   </div>
 </template>
 <script setup lang="ts">
@@ -28,6 +28,9 @@ request.get({
 const selectClassify = (classify:string = '') => {
   blog.classify = classify;
   blog.findBlog(blog.title,1,blog.classify)
+}
+const change = (current: number) => {
+  blog.findBlog(blog.title,current,blog.classify)
 }
 blog.findBlog(blog.title,1,blog.classify)
 </script>
@@ -66,6 +69,7 @@ blog.findBlog(blog.title,1,blog.classify)
     }
   }
   .pagination {
+    float: right;
     margin-bottom: 20px;
   }
 }

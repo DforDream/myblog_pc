@@ -9,19 +9,10 @@
           </a-timeline-item>
           <a-timeline-item>
             <div class="clearfix">
-              <h3>阿里巴巴巴巴</h3>
-              <p class="time">2020-0-22</p>
-              <p class="des">
-                嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻
-              </p>
-            </div>
-          </a-timeline-item>
-          <a-timeline-item>
-            <div class="clearfix">
-              <h3>阿里巴巴巴巴</h3>
-              <p class="time">2020-0-22</p>
-              <p class="des claerfix">
-                嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻喜爱嘻嘻嘻嘻嘻嘻嘻
+              <h3>江西理工大学</h3>
+              <p class="time">2015-9至2019.6</p>
+              <p class="des right">
+                在校期间，在学校的指导、⽼师的教诲、同学的帮助下，通过不断地学习理论知识和参与社会实践，将⾃⼰塑造成为了⼀个专业功底扎实、知识结构完善、适应能⼒、组织协调能⼒与沟通能⼒强、，具有团体精神的有为青年
               </p>
             </div>
           </a-timeline-item>
@@ -32,7 +23,15 @@
            <a-timeline-item>
             <h3>工作经历</h3>
           </a-timeline-item>
-          <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
+          <a-timeline-item>
+            <div class="clearfix">
+              <h3>罗马仕科技有限公司</h3>
+              <p class="time">2021.3-至今</p>
+              <p class="des left">
+                在职期间多次获得优秀员工称号，独立完成多个项目的从0到1的开发，并上线。
+              </p>
+            </div>
+          </a-timeline-item>
         </a-timeline>
       </div>
     </div>
@@ -88,9 +87,14 @@
       font-size: 12px;
     }
     .des {
-      float: right;
       font-size: 14px;
       width: 200px;
+    }
+    .right {
+      float: right;
+    }
+    .left {
+      float: left;
     }
   }
 }

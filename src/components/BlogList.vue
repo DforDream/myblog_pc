@@ -7,7 +7,8 @@
     :key="item.id"
   >
     <div class="blog_left">
-      <img :src="`${BASE}${item.imgpath}`" alt="" />
+      <img v-if="item.imgpath" :src="`${BASE}${item.imgpath}`" alt="" />
+      <img v-else :src="nav" alt="">
     </div>
     <div class="blog_right">
       <h2 class="title">{{ item.title }}</h2>
@@ -29,6 +30,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import logo from "@/assets/logo.webp";
+import nav from '@/assets/nav.webp';
 const props = defineProps(["data"]);
 const BASE = import.meta.env.VITE_BASE_URL;
 const router = useRouter();

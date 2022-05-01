@@ -80,7 +80,7 @@ const props = defineProps(["data", "toClose"]);
 const formRules = {
   title: [{ required: true, message: "博客标题不能为空" }],
   classify: [{ required: true, message: "博客分类不能为空" }],
-  image: [{ required: true, message: "博客封面图不能为空", type: "array" }],
+  // image: [{ required: true, message: "博客封面图不能为空", type: "array" }],
   content: [{ required: true, message: "博客内容不能为空" }],
 };
 const blogState: BlogState = reactive({
@@ -93,55 +93,55 @@ const imgPath = ref("");
 const classifyOptions = ref<SelectProps["options"]>([]);
 const classify = useClassify();
 const addBlog = () => {
-  if(props.data !== "undefined" && props.data){
+  if (props.data !== "undefined" && props.data) {
     request
-    .post({
-      url: EDIT_BLOG,
-      data: {
-        title: blogState.title,
-        classify: blogState.classify,
-        content: blogState.content,
-        imgpath: imgPath.value,
-        blogpath: props.data.blogpath,
-        id: props.data.id
-      },
-    })
-    .then((res: any) => {
-      if (res.data.code === 200) {
-        message.success(res.data.message);
-        // blogState.title = "";
-        // blogState.classify = null;
-        // blogState.content = "";
-        // blogState.image = [];
-        // imgPath.value = "";
-        props.toClose()
-      } else {
-        message.error(res.data.message);
-      }
-    });
-  }else{
-      request
-    .post({
-      url: ADD_BLOG,
-      data: {
-        title: blogState.title,
-        classify: blogState.classify,
-        content: blogState.content,
-        imgpath: imgPath.value,
-      },
-    })
-    .then((res: any) => {
-      if (res.data.code === 200) {
-        message.success(res.data.message);
-        blogState.title = "";
-        blogState.classify = null;
-        blogState.content = "";
-        blogState.image = [];
-        imgPath.value = "";
-      } else {
-        message.error(res.data.message);
-      }
-    });
+      .post({
+        url: EDIT_BLOG,
+        data: {
+          title: blogState.title,
+          classify: blogState.classify,
+          content: blogState.content,
+          imgpath: imgPath.value,
+          blogpath: props.data.blogpath,
+          id: props.data.id,
+        },
+      })
+      .then((res: any) => {
+        if (res.data.code === 200) {
+          message.success(res.data.message);
+          // blogState.title = "";
+          // blogState.classify = null;
+          // blogState.content = "";
+          // blogState.image = [];
+          // imgPath.value = "";
+          props.toClose();
+        } else {
+          message.error(res.data.message);
+        }
+      });
+  } else {
+    request
+      .post({
+        url: ADD_BLOG,
+        data: {
+          title: blogState.title,
+          classify: blogState.classify,
+          content: blogState.content,
+          imgpath: imgPath.value,
+        },
+      })
+      .then((res: any) => {
+        if (res.data.code === 200) {
+          message.success(res.data.message);
+          blogState.title = "";
+          blogState.classify = null;
+          blogState.content = "";
+          blogState.image = [];
+          imgPath.value = "";
+        } else {
+          message.error(res.data.message);
+        }
+      });
   }
 };
 const changeImg = (info: UploadChangeParam) => {
@@ -187,12 +187,14 @@ if (props.data !== "undefined" && props.data) {
   blogState.title = props.data.title;
   blogState.classify = props.data.classify;
   imgPath.value = props.data.imgpath;
-  blogState.image.push({
-    uid: "-1",
-    name: "image.png",
-    status: "done",
-    url: `${import.meta.env.VITE_BASE_URL}${props.data.imgpath}`,
-  });
+  if (props.data.imgpath) {
+    blogState.image.push({
+      uid: "-1",
+      name: "image.png",
+      status: "done",
+      url: `${import.meta.env.VITE_BASE_URL}${props.data.imgpath}`,
+    });
+  }
 
   request
     .get({
