@@ -4,6 +4,7 @@ const useLayout = defineStore('layout',{
   state: () => ({
     showAboutMe: false,
     showAdmin: false,
+    showContact: false
   }),
 })
 

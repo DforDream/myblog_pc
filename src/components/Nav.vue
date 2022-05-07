@@ -35,6 +35,8 @@ const gotoPage = (item:Item) => {
     layout.showAboutMe = true;
   }else if(item.show && item.show === "showAdmin"){
     layout.showAdmin = true;
+  }else if(item.show && item.show === "showContact"){
+    layout.showContact = true;
   }else{
     active.value = item.url;
     router.push(item.url)

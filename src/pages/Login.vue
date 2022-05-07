@@ -7,6 +7,7 @@
         :label-col="{ span: 8 }"
         :wrapper-col="{ span: 10 }"
         autocomplete="off"
+        @keydown.enter="login"
       >
         <a-form-item
           label="用户名"
@@ -63,6 +64,7 @@ const toHome = () => {
   layout.showAdmin = false;
 };
 const login = () => {
+  console.log('123')
   if (user.username && user.password) {
     isLoading.value = true;
     request

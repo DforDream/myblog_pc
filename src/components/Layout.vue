@@ -1,7 +1,7 @@
 <template>
   <Loading />
   <div class="container">
-    <div class="container_center" :class="layout.showAboutMe || layout.showAdmin ? 'hide' : ''">
+    <div class="container_center" :class="layout.showAboutMe || layout.showAdmin || layout.showContact ? 'hide' : ''">
       <Header />
       <Nav />
       <Main />
@@ -17,6 +17,11 @@
         <Login />
       </div>
     </transition>
+    <transition name="from_right">
+      <div class="contact" v-if="layout.showContact">
+        <Contact />
+      </div>
+    </transition>
   </div>
 </template>
 <script setup lang="ts">
@@ -29,6 +34,7 @@ import Nav from "./Nav.vue";
 import Main from "./Main.vue";
 import AboutMe from "@/pages/AboutMe.vue";
 import Login from "@/pages/Login.vue";
+import Contact from "@/pages/Contact.vue";
 const layout = useLayout();
 </script>
 
@@ -52,6 +58,16 @@ const layout = useLayout();
     z-index: 999;
     background: #fff;
   }
+  .contact {
+    transition: all 1s;
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 20vw;
+    height: 50vh;
+    background: #fff;
+    z-index: 999;
+  }
 }
 .hide {
   overflow: hidden;
@@ -72,4 +88,5 @@ const layout = useLayout();
 .from_right-leave-from {
   transform: translateX(0);
 }
+
 </style>
