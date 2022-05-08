@@ -29,12 +29,11 @@ const time = () => {
     date.getMinutes() >= 10 ? date.getMinutes() : `0${date.getMinutes()}`
   }:${date.getSeconds() >= 10 ? date.getSeconds() : `0${date.getSeconds()}`}`;
 };
-const socket = new WebSocket(`${import.meta.env.VITE_BASE_WS}`)
+const socket = new WebSocket(`${import.meta.env.VITE_BASE_WS}/admin`)
 socket.onopen = () => {
   // socket.send(JSON.stringify(''))
 }
 socket.onmessage = (res:any) => {
-  console.log(res)
   const data = JSON.parse(res.data)
   user.value = data.user
   dataArr.value = data.data
