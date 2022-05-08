@@ -2,72 +2,105 @@
   <div class="contact_main">
     <close-outlined class="close" @click="close" />
     <div class="wrap" ref="wrap">
-      <div v-for="item in dataArr" :key="item.id" class="clearfix">
-        <p class="time" :class="item.float === 'right' ? 'right' : 'left'">{{ item.time }}</p>
-        <p class="content" :style="{'background': item.float === 'right' ? '#ff725650' : '#53868a50'}" :class="item.float === 'right' ? 'right' : 'left'">{{ item.title }}</p>
+      <div v-for="item in dataArr" :key="item.time" class="clearfix">
+        <p class="time" :class="item.isAdmin ? 'left' : 'right'">
+          {{ item.time }}
+        </p>
+        <div class="loading" :class="item.isAdmin ? 'left' : 'right'">
+          <a-spin class="spin" :indicator="indicator" :spinning="item.isLoading" />
+          <p
+            class="content"
+            :style="{ background: item.isAdmin ? '#53868a50' : '#ff725650' }"
+          >
+            {{ item.title }}
+          </p>
+        </div>
       </div>
     </div>
-    <a-input v-model:value="title" size="large" @pressEnter="submit" class="input" />
+    <a-input
+      ref="input"
+      v-model:value="title"
+      size="large"
+      @pressEnter="submit"
+      class="input"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
-import type { Ref } from 'vue';
-import useLayout from "@/store/layout"
-import { CloseOutlined } from '@ant-design/icons-vue'
+import { ref, nextTick, h } from "vue";
+import type { Ref } from "vue";
+import useLayout from "@/store/layout";
+import { CloseOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 
 interface DataArr {
-  id: number,
-  title: string,
-  float: string,
-  time: string
+  id: number;
+  title: string;
+  isAdmin: boolean;
+  time: string;
+  isLoading: boolean;
 }
-const socket = new WebSocket(`ws://localhost:3301/${new Date().getTime()}`)
-socket.onopen
-socket.onmessage = (res:any) => {
-   dataArr.value.push({
-      id: id.value,
-      title: res.data,
-      float: 'left',
-      time: time()
-  })
-  id.value++
-}
-
-const layout = useLayout()
-const wrap:Ref<HTMLDivElement | null> = ref(null)
+const socket = new WebSocket(`${import.meta.env.VITE_BASE_WS}`);
+socket.onopen;
+socket.onmessage = (res: any) => {
+  const data = JSON.parse(res.data)
+  console.log(data)
+  dataArr.value = data.data
+};
+const indicator = h(LoadingOutlined, {
+  style: {
+    fontSize: "24px",
+  },
+});
+const layout = useLayout();
+const wrap: Ref<HTMLDivElement | null> = ref(null);
 const title = ref("");
-const dataArr:Ref<DataArr[]> = ref([]);
-const id = ref(0)
+const dataArr: Ref<DataArr[]> = ref([]);
+const id = new Date().getTime();
+const input:Ref<HTMLInputElement | null> = ref(null)
 
 const time = () => {
   const date = new Date();
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-}
+  return `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${date.getHours()}:${
+    date.getMinutes() >= 10 ? date.getMinutes() : `0${date.getMinutes()}`
+  }:${date.getSeconds() >= 10 ? date.getSeconds() : `0${date.getSeconds()}`}`;
+};
 const submit = () => {
   // console.log((wrap.value as HTMLDivElement).scrollHeight)
   // console.log((wrap.value as HTMLDivElement).scrollTop)
-  if(title.value){
+  if (title.value) {
     dataArr.value.push({
-      id: id.value,
+      id: id,
       title: title.value,
-      float: 'right',
-      time: time()
-    })
+      isAdmin: false,
+      time: time(),
+      isLoading: true,
+    });
     // socket.send(JSON.stringify(title.value))
-    socket.send(JSON.stringify({'time': `${id.value}`}))
-    title.value = ''
-    id.value++
+    socket.send(
+      JSON.stringify({
+        id: id,
+        title: title.value,
+        isAdmin: false,
+        time: time(),
+        isLoading: false,
+      })
+    );
+    title.value = "";
   }
   nextTick(() => {
-    (wrap.value as HTMLDivElement).scrollTop = (wrap.value as HTMLDivElement).scrollHeight
-  })
+    (wrap.value as HTMLDivElement).scrollTop = (
+      wrap.value as HTMLDivElement
+    ).scrollHeight;
+  });
 };
 const close = () => {
-  layout.showContact = false
-}
-
-
+  layout.showContact = false;
+};
+setTimeout(() => {
+  input.value?.focus()
+},1000)
 </script>
 
 <style scoped lang="less">
@@ -87,14 +120,6 @@ const close = () => {
     flex: 1;
     overflow-y: auto;
   }
-  .content {
-    padding: 0 15px;
-    line-height: 30px;
-    margin: 10px;
-    color: #333;
-    border-radius: 5px;
-    clear: both;
-  }
   .time {
     text-align: right;
     padding: 0 15px;
@@ -105,6 +130,25 @@ const close = () => {
   }
   .left {
     float: left;
+  }
+  .loading {
+    display: flex;
+    clear: both;
+    .content {
+      // flex: 1;
+      padding: 0 15px;
+      line-height: 30px;
+      margin: 10px;
+      color: #333;
+      border-radius: 5px;
+      // clear: both;
+    }
+    .spin {
+      margin-left: 10px;
+      align-self: center;
+      float: right;
+      margin-top: 10px;
+    }
   }
 }
 </style>

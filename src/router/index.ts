@@ -50,6 +50,10 @@ const routes: RouteRecordRaw[] = [
         path: 'msgboard',
         component: () => import('@/pages/admin/AdminMsgboard.vue')
       },
+      {
+        path: 'contact',
+        component: () => import('@/pages/admin/AdminContact.vue')
+      },
     ]
   },
   {

@@ -40,6 +40,11 @@ const nav = [
     id: 3,
     path: '/admin/msgboard',
     title: '留言板管理'
+  },
+  {
+    id: 4,
+    path: '/admin/contact',
+    title: '联系我管理'
   }
 ]
 const active = ref('/admin/writeblog')

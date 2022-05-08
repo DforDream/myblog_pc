@@ -64,7 +64,6 @@ const toHome = () => {
   layout.showAdmin = false;
 };
 const login = () => {
-  console.log('123')
   if (user.username && user.password) {
     isLoading.value = true;
     request
