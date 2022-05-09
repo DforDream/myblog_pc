@@ -1,12 +1,13 @@
 <template>
   <div class="blog_detail">
     <a-button class="back" type="primary" @click="backTo">返回</a-button>
-    <MdEditor v-model="content" previewOnly readOnly/> 
+    <MdEditor v-model="content" previewOnly /> 
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import MdEditor from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
 import { useRouter } from "vue-router";
 import request from '@/http'
 import { GET_BLOG_DETAIL } from "@/http/api";
@@ -34,6 +35,10 @@ const backTo = () => {
   background: #fff;
   margin-bottom: 20px;
   .back {
+    position: fixed;
+    bottom: 0px;
+    right: 20px;
+    z-index: 999;
     margin: 10px;
   }
 }

@@ -13,7 +13,7 @@
           :bordered="false"
           placeholder="请输入博客标题..."
           size="large"
-          :maxlength="20"
+          :maxlength="30"
           showCount
           style="width: 600px"
         />

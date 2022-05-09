@@ -17,11 +17,11 @@ import MainRight from "./Main_right.vue";
   width: 100%;
   display: flex;
   .main_left {
-    flex: 2.5;
+    width: 680px;
     margin-right: 10px;
   }
   .main_right {
-    flex: 1;
+    width: 270px;
   }
 }
 </style>

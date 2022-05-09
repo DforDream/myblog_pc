@@ -17,9 +17,6 @@
         <span class="name">一只小白u</span>
         <span class="time">发布时间：{{ item.createdate }}</span>
       </div>
-      <div class="des">
-        {{ item.des }}
-      </div>
     </div>
   </div>
 </div>
@@ -42,13 +39,13 @@ const toBlog = (id: number) => {
 <style scoped lang="less">
 .blog {
   width: 100%;
-  height: 200px;
+  height: 130px;
   background: #fff;
   display: flex;
   cursor: pointer;
   margin-bottom: 15px;
   .blog_left {
-    width: 40%;
+    // width: 40%;
     height: 100%;
     overflow: hidden;
     img {
@@ -57,19 +54,21 @@ const toBlog = (id: number) => {
     }
   }
   .blog_right {
+    margin-top: 20px;
     margin-left: 15px;
     margin-right: 15px;
     flex: 1;
     .title {
       font-weight: 700;
-      font-size: 26px;
+      font-size: 20px;
       line-height: 50px;
     }
     .author {
+      margin-top: 10px;
       font-size: 12px;
       img {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
       }
       .name {
@@ -77,11 +76,6 @@ const toBlog = (id: number) => {
         display: inline-block;
         margin: 0 10px;
       }
-    }
-    .des {
-      text-indent: 2em;
-      line-height: 20px;
-      font-size: 14px;
     }
   }
 }

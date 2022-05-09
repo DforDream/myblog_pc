@@ -5,6 +5,7 @@
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ADrawer: typeof import('ant-design-vue/es')['Drawer']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
     AImage: typeof import('ant-design-vue/es')['Image']
@@ -12,9 +13,12 @@ declare module '@vue/runtime-core' {
     AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
     AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
     APagination: typeof import('ant-design-vue/es')['Pagination']
+    APopconfirm: typeof import('ant-design-vue/es')['Popconfirm']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpin: typeof import('ant-design-vue/es')['Spin']
+    ASwitch: typeof import('ant-design-vue/es')['Switch']
+    ATable: typeof import('ant-design-vue/es')['Table']
     ATimeline: typeof import('ant-design-vue/es')['Timeline']
     ATimelineItem: typeof import('ant-design-vue/es')['TimelineItem']
     AUpload: typeof import('ant-design-vue/es')['Upload']

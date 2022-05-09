@@ -7,7 +7,11 @@
           {{ item.time }}
         </p>
         <div class="loading" :class="item.isAdmin ? 'left' : 'right'">
-          <a-spin class="spin" :indicator="indicator" :spinning="item.isLoading" />
+          <a-spin
+            class="spin"
+            :indicator="indicator"
+            :spinning="item.isLoading"
+          />
           <p
             class="content"
             :style="{ background: item.isAdmin ? '#53868a50' : '#ff725650' }"
@@ -39,12 +43,21 @@ interface DataArr {
   time: string;
   isLoading: boolean;
 }
-const socket = new WebSocket(`${import.meta.env.VITE_BASE_WS}`);
-socket.onopen;
+const socket = new WebSocket(
+  `${import.meta.env.VITE_BASE_WS}/${localStorage.getItem("userId")}`
+);
+socket.onopen
 socket.onmessage = (res: any) => {
-  const data = JSON.parse(res.data)
-  console.log(data)
-  dataArr.value = data.data
+  const data = JSON.parse(res.data);
+  dataArr.value = data.data[0].data;
+  layout.showContact = true
+  nextTick(() => {
+    if (wrap.value) {
+      (wrap.value as HTMLDivElement).scrollTop = (
+        wrap.value as HTMLDivElement
+      ).scrollHeight;
+    }
+  });
 };
 const indicator = h(LoadingOutlined, {
   style: {
@@ -56,7 +69,10 @@ const wrap: Ref<HTMLDivElement | null> = ref(null);
 const title = ref("");
 const dataArr: Ref<DataArr[]> = ref([]);
 const id = new Date().getTime();
-const input:Ref<HTMLInputElement | null> = ref(null)
+const input: Ref<HTMLInputElement | null> = ref(null);
+if (!localStorage.getItem("userId")) {
+  localStorage.setItem("userId", `${id}`);
+}
 
 const time = () => {
   const date = new Date();
@@ -71,7 +87,7 @@ const submit = () => {
   // console.log((wrap.value as HTMLDivElement).scrollTop)
   if (title.value) {
     dataArr.value.push({
-      id: id,
+      id: +(localStorage.getItem("userId") as string),
       title: title.value,
       isAdmin: false,
       time: time(),
@@ -80,7 +96,7 @@ const submit = () => {
     // socket.send(JSON.stringify(title.value))
     socket.send(
       JSON.stringify({
-        id: id,
+        id: localStorage.getItem("userId"),
         title: title.value,
         isAdmin: false,
         time: time(),
