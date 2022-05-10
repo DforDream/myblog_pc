@@ -23,7 +23,8 @@ interface Item {
 }
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import navImg from "@/assets/nav.webp";
+// import navImg from "@/assets/nav.webp";
+import navImg from '@/assets/nav.png';
 import useStatic from "@/store/static";
 import useLayout from "@/store/layout";
 const _static = useStatic();
@@ -73,6 +74,7 @@ active.value = router.currentRoute.value.fullPath
 .image {
   width: 100%;
   height: 400px;
+  background: #53868a;
   overflow: hidden;
   img {
     width: 100%;

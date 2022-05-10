@@ -27,7 +27,8 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import logo from "@/assets/logo.webp";
-import nav from '@/assets/nav.webp';
+// import nav from '@/assets/nav.webp';
+import nav from '@/assets/detail_nav.png';
 const props = defineProps(["data"]);
 const BASE = import.meta.env.VITE_BASE_URL;
 const router = useRouter();
@@ -46,6 +47,7 @@ const toBlog = (id: number) => {
   margin-bottom: 15px;
   .blog_left {
     // width: 40%;
+    width: 185px;
     height: 100%;
     overflow: hidden;
     img {
