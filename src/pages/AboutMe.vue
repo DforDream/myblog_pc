@@ -1,7 +1,7 @@
 <template>
   <div class="about_me">
     <div class="left">
-      <div v-for="item in data" :key="item.url" @click="toPage(item.id)">
+      <div v-for="item in data" :key="item.id" @click="toPage(item.id)">
         <component
           :is="item.component"
           :class="item.id === activeId ? 'active' : ''"

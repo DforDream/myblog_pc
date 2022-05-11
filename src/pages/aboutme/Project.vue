@@ -10,7 +10,7 @@
               <p class="time">
                 项目技术：vue3 + vuex + vue-router + Ant-Design-Vue + TypeScript
               </p>
-              <div class="des" style="float: right">
+              <div class="des" :style="{'float': 'right'}">
                 <p>项目职责： 1.独立完成该项目的全部功能模块。</p>
                 <p>2.根据UI设计师的设计稿，完成99%还原度的前端页面。</p>
                 <p>
@@ -29,7 +29,7 @@
             <div class="clearfix">
               <h3>车载微信小程序</h3>
               <p class="time">项目技术：原生小程序开发</p>
-              <div class="des claerfix" style="float: right">
+              <div class="des claerfix" :style="{'float': 'right'}">
                 <p>项目职责： 1.独立完成小程序的全部功能模块。</p>
                 <p>
                   2.首页字母快捷查询模块，将左侧导航、中间主产品区域、右侧字母快捷导航三个模块进行联动，并配合小程序滚动视图组件进行滚动动画处理。
@@ -47,7 +47,7 @@
             <div class="clearfix">
               <h3>bpms系统</h3>
               <p class="time">项目技术：vue + vuex + vue-router + elementUI</p>
-              <div class="des claerfix" style="float: right">
+              <div class="des claerfix" :style="{'float': 'right'}">
                 <p>项目职责： 1.对项目进行迭代，进行功能补全和逻辑完善。</p>
                 <p>
                   2.鉴权模块，该系统分四种角色，实现手动添加左侧导航，并根据角色id实现动态导航组件。

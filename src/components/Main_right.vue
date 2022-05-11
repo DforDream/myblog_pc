@@ -34,9 +34,11 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import type { Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useStatic from "@/store/static";
 import useBlog from "@/store/blog";
+import type { Blog } from '@/store/blog'
 import useLayout from "@/store/layout";
 import request from "@/http"
 import { FIND_HOT_BLOG } from "@/http/api"
@@ -50,7 +52,7 @@ const _static = useStatic();
 const blog = useBlog();
 const layout = useLayout();
 
-const hotBlog = ref([])
+const hotBlog:Ref<Blog[] | null> = ref(null);
 const onSearch = () => {
   if(router.currentRoute.value.fullPath !== '/blog'){
     router.push('/blog')

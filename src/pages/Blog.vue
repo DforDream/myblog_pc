@@ -2,7 +2,7 @@
   <div class="blog">
     <div class="sort">
       <span :class="{ 'active': blog.classify === ''}" @click="selectClassify('')">全部</span>
-      <span :class="{'active': blog.classify === item.classify }" v-for="item in classifyList" :key="item.id" @click="selectClassify(item.classify)">{{ item.classify }}</span>
+      <span v-for="item in classifyList" :key="item.id" @click="selectClassify(item.classify)" :class="{'active': blog.classify === item.classify }">{{ item.classify }}</span>
     </div>
     <BlogList :data="blog.allBlog" />
     <a-pagination class="pagination" v-model:current="blog.current" :total="blog.total" hideOnSinglePage @change="change" />
@@ -10,13 +10,19 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Ref } from 'vue';
 import request from "@/http";
 import { GET_ALL_CLASSIFY } from '@/http/api';
 import useBlog from '@/store/blog';
 import BlogList from '@/components/BlogList.vue';
 
+interface ClassifyList {
+  id: number
+  classify: string
+}
+
 const blog = useBlog();
-const classifyList = ref([])
+const classifyList:Ref<ClassifyList[] | null> = ref(null)
 
 request.get({
   url: GET_ALL_CLASSIFY
