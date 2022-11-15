@@ -30,7 +30,7 @@ class Request {
     this.interceptorsObj = (config.interceptors as RequestInterceptors)
     this.cancelRequestSourceList = new Map();
     this.requestCount = 0;
-    this.hasLoading = (config.headers?.hasLoading as boolean) || true
+    this.hasLoading = (config.headers?.hasLoading as boolean) || false
     // 实例请求拦截器
     this.instance.interceptors.request.use(
       this.interceptorsObj?.requestInterceptors,

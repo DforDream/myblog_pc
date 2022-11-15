@@ -105,6 +105,7 @@ active.value = router.currentRoute.value.fullPath
     }
   }
   .main {
+    overflow: auto;
     flex: 1;
     padding: 15px 30px;
   }
